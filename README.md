@@ -11,7 +11,7 @@ Secondly, you should have a C compiler (such as GCC) and CMake installed. If you
 
 
 ## Installation
-First, clone the repository. Then, make a build directory. Then, issue `cmake ..`, and then finally, `make`.
+It's pretty much a standard CMake build process. Clone, cd, make a build directory, call `cmake ..`, then `cmake build`.
 
 So far, I haven't tested doing an installation to anywhere, but if you copy the final result to `/usr/bin` (or some other directory in your PATH), it should work just fine.
 
