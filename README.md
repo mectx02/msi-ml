@@ -5,13 +5,16 @@ This utility was created in Linux, by a Linux user, for other Linux users with M
 
 
 ## Requirements
-While theoretically this would work under Windows, I haven't tried it since this seems to be mostly a Linux issue. Windows already has MSI's Mystic Light software - I would recommend using that first (although it's not great, imo) before attempting to use this.
+This is Linux software, developed by a Linux user, for other Linux users with MysticLight-capable keyboards. If you are wanting to use this under Windows, 
+sorry; MSI provdes a first-party utility. You should go use that.
 
-Secondly, you should have a C compiler (such as GCC) and the Hidapi library installed from your package manager (or built from source - you don't have to install it from your package manager.). 
+In terms of installation, you should have a C compiler (such as GCC) and the Hidapi library installed from your package manager (or built from source - you don't have to install it from your package manager.). 
 
 
 ## Installation
 Just call `make`, then `sudo make install`. It's literally that simple (as long as you have the appropriate pre-requisites installed for this to work.
+
+`make install` copies the program over to the `/usr/bin/` directory, and then installes a rules package that allows for using the utility without elevated privilages. (udev likes to complain a lot. Which is good, but not under this circumstance.)
 
 
 ## Usage
