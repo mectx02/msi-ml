@@ -11,7 +11,7 @@ Secondly, you should have a C compiler (such as GCC) and the Hidapi library inst
 
 
 ## Installation
-Just call `make`, then `make install`. It's literally that simple (as long as you have the appropriate pre-requisites installed for this to work.
+Just call `make`, then `sudo make install`. It's literally that simple (as long as you have the appropriate pre-requisites installed for this to work.
 
 
 ## Usage
