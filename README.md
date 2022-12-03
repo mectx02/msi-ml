@@ -7,13 +7,11 @@ This utility was created in Linux, by a Linux user, for other Linux users with M
 ## Requirements
 While theoretically this would work under Windows, I haven't tried it since this seems to be mostly a Linux issue. Windows already has MSI's Mystic Light software - I would recommend using that first (although it's not great, imo) before attempting to use this.
 
-Secondly, you should have a C compiler (such as GCC) and CMake installed. If you don't, use your distrobution's package manager to install, or build them from source.
+Secondly, you should have a C compiler (such as GCC) and the Hidapi library installed from your package manager (or built from source - you don't have to install it from your package manager.). 
 
 
 ## Installation
-It's pretty much a standard CMake build process. Clone, cd, make a build directory, call `cmake ..`, then `cmake build`.
-
-So far, I haven't tested doing an installation to anywhere, but if you copy the final result to `/usr/bin` (or some other directory in your PATH), it should work just fine.
+Just call `make`, then `make install`. It's literally that simple (as long as you have the appropriate pre-requisites installed for this to work.
 
 
 ## Usage
