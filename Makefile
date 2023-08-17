@@ -12,7 +12,7 @@ else
 	@echo "'
 	@echo "hidapi library not found! You should go and install it."
 	@echo "'
-	@echo "APT  : sudo apt install libhidapi-dev"
+	@echo "APT   : sudo apt install libhidapi-dev"
 	@echo "Pacman: sudo pacman -S hidapi'"
 	@echo ""
 	@echo "Build from source: https://github.com/libusb/hidapi"
