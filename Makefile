@@ -18,9 +18,14 @@ else
 	@echo "Build from source: https://github.com/libusb/hidapi"
 endif
 
-install:
+install: msi-ml 10-msi.rules keyboard-backlight-disable.service
 # Installs the final executable to the bin directory.
 	cp ./msi-ml /usr/bin/.
 # Makes udev shut up and take it so the binary is executable 
 # without elevated permissions.
 	cp 10-msi.rules /etc/udev/rules.d/.
+# Installs a service so that systemd can disable the keyboard 
+# backlight upon boot
+	cp keyboard-backlight-disable.service /etc/systemd/system/keyboard-backlight-disable.service
+	systemctl enable keyboard-backlight-disable.service
+
