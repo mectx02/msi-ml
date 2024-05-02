@@ -13,8 +13,8 @@ In terms of installation, you should have a C compiler (such as GCC) and the Hid
 
 ## Installation
 I've recently adapted this to allow for multiple init systems. The code *should* be exacly the same between each branch, with only the init scripts dfiffering between them.
-
-To make and install the program, (once you have selected your init system), call `make`, then `sudo make install`. The program auto-installs to the `/usr/bin/` directory.
+To install for your system (assuming that you're running a systemd init system), just call `make`. Or, if you care to specify, `make systemd`. For OpenRC systems, call `make openrc`. 
+Make should take care of the rest for you, though it will ask for your password to install all of the required files.
 
 
 ## Usage
