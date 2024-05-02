@@ -12,9 +12,9 @@ In terms of installation, you should have a C compiler (such as GCC) and the Hid
 
 
 ## Installation
-Just call `make`, then `sudo make install`. It's literally that simple (as long as you have the appropriate pre-requisites installed for this to work.
+I've recently adapted this to allow for multiple init systems. The code *should* be exacly the same between each branch, with only the init scripts dfiffering between them.
 
-`make install` copies the program over to the `/usr/bin/` directory, and then installes a rules package that allows for using the utility without elevated privilages. (udev likes to complain a lot. Which is good, but not under this circumstance.)
+To make and install the program, (once you have selected your init system), call `make`, then `sudo make install`. The program auto-installs to the `/usr/bin/` directory.
 
 
 ## Usage
