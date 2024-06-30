@@ -20,7 +20,7 @@
  * 
  * Outputs: void
  */
-void color_splitter(char * in, char * c) {
+void color_splitter(char * in, unsigned char * c) {
 
 	sscanf(in, "%2hhx%2hhx%2hhx", &c[0], &c[1], &c[2]);
 
@@ -35,7 +35,7 @@ void color_splitter(char * in, char * c) {
  * 
  * Outputs: (color *), an array of color values
  */
-int parse_color_list(char * in, char * c) {
+int parse_color_list(char * in, unsigned char * c) {
 
 	// First, determine the length of color array (which is done by just taking 
 	// the length of the input string, adding 1, and dividing by 7)
@@ -177,14 +177,14 @@ int main(int argc, char ** argv) {
 				// TODO: fix this error with kb_c since the struct got removed
 				// This is probably the dumbest hack because of the return type,
 				// but I think it'll work.
-				colors = parse_color_list(optarg, &kb_c);
+				colors = parse_color_list(optarg, kb_c);
 				break;
 
 
 			case 's':
 				printf("Color string: %s\n", optarg);
 				mode = 0x05;
-				colors = parse_color_list(optarg, &kb_c);
+				colors = parse_color_list(optarg, kb_c);
 				break;
 
 
