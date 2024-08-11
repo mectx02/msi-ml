@@ -20,7 +20,7 @@
  * 
  * Outputs: void
  */
-void color_splitter(char * in, unsigned char * c) {
+void color_splitter(char * in, char * c) {
 
 	sscanf(in, "%2hhx%2hhx%2hhx", &c[0], &c[1], &c[2]);
 
@@ -35,7 +35,7 @@ void color_splitter(char * in, unsigned char * c) {
  * 
  * Outputs: (color *), an array of color values
  */
-int parse_color_list(char * in, unsigned char * c) {
+int parse_color_list(char * in, char * c) {
 
 	// First, determine the length of color array (which is done by just taking 
 	// the length of the input string, adding 1, and dividing by 7)
@@ -213,7 +213,13 @@ int main(int argc, char ** argv) {
 
 	while (cur_device) {
 
-		if (wcscmp(L"MSI", cur_device->manufacturer_string) == 0) break;
+		if (wcscmp(L"MSI", cur_device->manufacturer_string) == 0) {
+			printf("Found a compatible MSI MysticLight device:");
+			printf("\n\tUID: %x", cur_device->vendor_id);
+			printf("\n\tPID: %x", cur_device->product_id);
+			printf("\n");
+			break;
+		}
 
 		cur_device = cur_device->next;
 
@@ -231,13 +237,6 @@ int main(int argc, char ** argv) {
 	// The actually fun part - getting all the data to the keyboard
 	//
 
-
-	// First, establish a 64-byte array
-	unsigned char data[64];
-	memset(data, 0x00, sizeof(data));
-	data[0] = 0x02;
-	data[1] = 0x00;
-
 	// Create a handle for our newly found devices; after this step, we can free our
 	// linear search list variable
 	hid_device * handle = hid_open(cur_device->vendor_id, 
@@ -246,6 +245,8 @@ int main(int argc, char ** argv) {
 	hid_free_enumeration(devices);
 
 
+	// TODO: remove or change this --- only applies to the MS-1563 keyboard 
+	// models
 	/**
 	 * * Technical information * (for all the nerds)
 	 * 
@@ -258,14 +259,53 @@ int main(int argc, char ** argv) {
 	 * 		 in tuplets of 3 bytes.)
 	 */
 
-	data[0] = 0x02;
-	data[2] = mode;
-	data[3] = speed;
-	data[4] = brightness;
-	data[5] = colors;
+
+	// First, establish a 64-byte array, as that is the designated packet length 
+	// that the microcontroller uses
+	unsigned char data[64];
+	memset(data, 0x00, sizeof(data));
+	int i = 0;
+
+	// Depending on the type of keyboard that we're working with, set the packet 
+	// values accordingly
+
+	if (handle->product_id == 0x1563) {
+
+		data[0] = 0x02;
+		data[1] = 0x00;
+		data[2] = mode;
+		data[3] = speed;
+		data[4] = brightness;
+		data[5] = colors;
+		i = 6;
+
+	}
+
+	// Thanks to Github user @natanalt for writing the documentation on his 
+	// findings for this! (And @superredstone for bringing it to my attention)
+	if (handle->product_id == 0x1565) {
+
+		data[0] = 0x02;
+		data[1] = 0x02;
+		data[2] = mode;
+		data[3] = speed;
+		data[4] = brightness;		// I don't know if this will actually do
+									// what it is supposed to, but we'll see...
+		data[5] = 0x00;
+		data[6] = 0x00;
+		data[7] = 0x0f;
+		data[8] = 0x01;
+		data[9] = 0x01;				// This sets the wave direction, but for 
+									// current testing purposes we'll leave it 
+									// going left to right. TODO: add option 
+									// for right to left
+		i = 10;
+		
+	}
+
+
 
 	// At this point, we now need to iterate over all the colors and add them to the data array
-	int i = 6;
 	for (; i < 6 + (colors * 3); i++)  {
 		data[i] = kb_c[i - 6];
 	}
