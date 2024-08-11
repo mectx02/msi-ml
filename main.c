@@ -217,6 +217,7 @@ int main(int argc, char ** argv) {
 			printf("Found a compatible MSI MysticLight device:");
 			printf("\n\tUID: %x", cur_device->vendor_id);
 			printf("\n\tPID: %x", cur_device->product_id);
+            printf("\n\tManufacturer string: %ls", cur_device->product_string);
 			printf("\n");
 			break;
 		}
@@ -269,7 +270,9 @@ int main(int argc, char ** argv) {
 	// Depending on the type of keyboard that we're working with, set the packet 
 	// values accordingly
 
-	if (handle->product_id == 0x1563) {
+	if (hid_get_device_info(handle)->product_id == 0x1563) {
+
+        printf("Using the 0x1563 version setup...\n");
 
 		data[0] = 0x02;
 		data[1] = 0x00;
@@ -283,7 +286,9 @@ int main(int argc, char ** argv) {
 
 	// Thanks to Github user @natanalt for writing the documentation on his 
 	// findings for this! (And @superredstone for bringing it to my attention)
-	if (handle->product_id == 0x1565) {
+	if (hid_get_device_info(handle)->product_id == 0x1565) {
+
+        printf("Using the 0x1565 version setup...\n");
 
 		data[0] = 0x02;
 		data[1] = 0x02;
