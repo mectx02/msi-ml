@@ -265,8 +265,8 @@ int main(int argc, char ** argv) {
 	// that the microcontroller uses
 	unsigned char data[64];
 	memset(data, 0x00, sizeof(data));
-	int i = 0;
 
+	// At this point, we now need to iterate over all the colors and add them to the data array
 	// Depending on the type of keyboard that we're working with, set the packet 
 	// values accordingly
 
@@ -280,7 +280,12 @@ int main(int argc, char ** argv) {
 		data[3] = speed;
 		data[4] = brightness;
 		data[5] = colors;
-		i = 6;
+		int data_start_index = 6;
+		int i = 0;
+
+		for (; i < 6 + (colors * 3); i++)  {
+			data[data_start_index + i] = kb_c[i];
+		}
 
 	}
 
@@ -304,16 +309,29 @@ int main(int argc, char ** argv) {
 									// current testing purposes we'll leave it 
 									// going left to right. TODO: add option 
 									// for right to left
-		i = 10;
+
+		// With the 0x1602 variant, there's such a thing as keyframes now that 
+		// we have to account for, which is annoying...
+		int data_start_index = 10;
+
+		int keyframes = 100 / (colors - 1);		// We start at 0 and end at 100
+
+		for (int i = 0; i < colors; i++) {
+
+			// Man do I pray to god that this works the first time, because I 
+			// have no idea if this is actually going to work the way that I 
+			// think it does...
+			data[data_start_index + (i * 4)] = keyframes * i;
+			data[data_start_index + (i * 4) + 1] = kb_c[colors * i];
+			data[data_start_index + (i * 4) + 2] = kb_c[colors * i + 1];
+			data[data_start_index + (i * 4) + 3] = kb_c[colors * i + 2];
+
+		}
 		
 	}
 
 
 
-	// At this point, we now need to iterate over all the colors and add them to the data array
-	for (; i < 6 + (colors * 3); i++)  {
-		data[i] = kb_c[i - 6];
-	}
 
 
 	// Now that the data structure is set up, we can send all of the data to the keyboard!
